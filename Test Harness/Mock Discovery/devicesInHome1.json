@@ -1,0 +1,51 @@
+{"deviceCheckResult": [
+{
+    "ipv4" : "192.128.1.1",
+    "mac" : "00:0a:95:9d:68:16",
+    "name" : "Alexa",
+    "test" : "Priv-Check",
+    "type" : "ai",
+    "state": "warn",
+    "message":"Stores Personal data."
+
+  }, {
+    "ipv4" : "192.128.1.2",
+    "mac" : "00:0a:95:9d:64:27",
+    "name" : "Google Home",
+    "test" : "Firmware",
+    "type" : "speaker",
+    "state": "warn",
+    "message":"Firmware update is available."
+  }, {
+    "ipv4" : "192.128.1.3",
+    "mac" : "00:0a:77:9d:64:54",
+    "name" : "CC TV",
+    "test" : "Known-Pass",
+    "type" : "thermostat",
+    "state": "danger",
+    "message":"Default password detected.  Change password!"
+  }, {
+    "ipv4" : "192.128.1.4",
+    "mac" : "00:0a:87:9d:69:14",
+    "name" : "DSLR / SLR",
+    "test" : "Ping",
+    "type" : "camera",
+    "state": "warn",
+    "message":"No response from device."
+  }, {
+    "ipv4" : "192.128.1.5",
+    "mac" : "00:0a:7b:9d:d4:51",
+    "name" : "plug",
+    "test" : "Known-Pass",
+    "type" : "plug",
+    "state": "danger",
+    "message":"Default password detected.  Change password!"
+  }, {
+    "ipv4" : "192.128.1.6",
+    "mac" : "00:0a:77:9d:64:54",
+    "name" : "security",
+    "test" : "Generic-Security",
+    "type" : "security",
+    "state": "warn",
+    "message":"12 months since last audit."
+  }]}
