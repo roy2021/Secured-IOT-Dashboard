@@ -105,7 +105,8 @@ class Manual extends React.Component {
                                     var n='Name:'+newvalue.name.toString()+'\n'+
                                         'IP Address:'+newvalue.ipv4+'\n'+
                                         'MAC Address:'+newvalue.mac+'\n'+
-                                        'Status:'+newvalue.state;
+                                        'Status:'+newvalue.state+'\n'+
+					'Message:'+newvalue.message;
                                     Swal.fire({
                                         html: '<pre>' + n + '</pre>',
                                         customClass: {

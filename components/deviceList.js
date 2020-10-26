@@ -29,7 +29,7 @@ function GetState(props){
             delay={{ show: 250, hide: 400 }}
             overlay={
             <Tooltip id="button-tooltip">
-                <i style={{color:'#6bd3ff'}}>Test : {props.test}</i><br/>Warning : {props.warn}
+                <i style={{color:'#6bd3ff'}}>Test : {props.test}</i><br/>Warning : {props.message}
             </Tooltip>
             }
         ><GiLaserWarning size={25} style={{color: "#ffb300"}}/></OverlayTrigger>;
@@ -38,7 +38,7 @@ function GetState(props){
             delay={{ show: 250, hide: 400 }}
             overlay={
             <Tooltip id="button-tooltip">
-                <i style={{color:'#6bd3ff'}}>Test : {props.test}</i><br/>Danger : {props.danger}
+                <i style={{color:'#6bd3ff'}}>Test : {props.test}</i><br/>Danger : {props.message}
             </Tooltip>
             }
         ><CgDanger size={25} style={{color:"red"}}/></OverlayTrigger>;
@@ -83,7 +83,7 @@ class DeviceList extends React.Component {
     }
     componentDidMount(){
         const db=database();
-        let items=db.ref().child('devices')
+        let items=db.ref().child('deviceCheckResult') // This is the non-demo table
         items.once('value',(snap)=>{
             const data=snap.val()
             if(data)
@@ -94,7 +94,7 @@ class DeviceList extends React.Component {
             pointer.setState({processing:false})
         }, 5000)
     }
-    shuffle(array) {
+    shuffle(array) { //Only used in demos
         var currentIndex = array.length, temporaryValue, randomIndex;
       
         // While there remain elements to shuffle...
@@ -118,15 +118,17 @@ class DeviceList extends React.Component {
             devices=this.state.devices;
         }
         devices=devices.map((dev)=>{
+
             if(this.props.min>(0-1) && this.props.min>(0-1)){
                 if(dev.ip>=this.props.max || dev.ip<this.props.min)
-                return null;
+               return null;
             }
+//  Uncomment if you wish the assessment state and number of devices to be made up randomly in a demo. 
             // else if(Math.random()<0.3) return null;
-            dev.state=states[Math.floor(Math.random()*3)];
+//            dev.state=states[Math.floor(Math.random()*3)];
             return dev;
         }).filter((dev)=>dev)
-        return this.shuffle(devices)
+        return devices // If you want to remix the order of devices displayed in a demo then change this to "return this.shuffle(devices)"
     }
     count(state){
         const devices=this.state.devices;
@@ -270,11 +272,11 @@ class DeviceList extends React.Component {
                             {
                                 this.state.devices.map((dev,i)=>
                                     <tr>
-                                    <td><GetState {...dev} warn={dev.warning}/></td>
+                                    <td><GetState {...dev} message={dev.message}/></td>
                                     <td><Icon type={dev.type}/></td>
                                     <td>{dev.name}</td>
                                     <td>{dev.mac}</td>
-                                    <td>192.168.1.{dev.ip}</td>
+                                    <td>{dev.ipv4}</td>
                                     <td>
                                     {dev.state=='safe'?<Button style={{cursor:'not-allowed'}} disabled variant='success'>
                                         <TiTick/> Resolve
