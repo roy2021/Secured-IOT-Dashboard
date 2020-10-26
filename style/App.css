@@ -308,7 +308,7 @@ input:checked + .slider:before {
   font-size: medium;
 }
 .testCase-container{
-  width: calc(100%-50px);
+  width: calc(100%- 50px);
   margin: 10px 25px 10px 25px;
   padding: 10px 15px 10px 15px;
   border: solid;
@@ -328,4 +328,12 @@ input:checked + .slider:before {
 }
 .bg-dark {
   background-color: #000000!important;
+}
+
+.format-pre pre {
+    background: #49483e;
+    border-radius: 8px;
+    color: #f7f7f7;
+    padding: 10px;
+    font-size: 15px;
 }
