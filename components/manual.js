@@ -4,6 +4,8 @@ import { database } from 'firebase'
 import {GoRadioTower} from 'react-icons/go'
 import {GiCrossMark} from 'react-icons/gi'
 import DeviceList from "./deviceList";
+import Swal from "sweetalert2";
+import * as firebase from "firebase";
 class Manual extends React.Component {
     constructor(props)
 	{
@@ -55,32 +57,73 @@ class Manual extends React.Component {
                         <GiCrossMark  style={{marginRight:'10px'}}/>Close
                     </Button>:
                     <div className='flex-container'>
-                        Set IP range : 
+                        Target IP address:
                         <Form.Group style={{maxWidth:100,margin:'5px'}} onChange={(e)=>{
                             if(e.target.value)
-                            this.setState({
-                                min:Number(e.target.value),
-                            })
-                        }} controlId="min">
+                                this.setState({
+                                    a:Number(e.target.value),
+                                } )
+
+                        } }  controlId="min">
                             <Form.Control defaultValue={this.state.min} type="number" placeholder="Min" min={0}/>
                         </Form.Group>
-                        To
                         <Form.Group style={{maxWidth:100,margin:'5px'}} onChange={(e)=>{
                             if(e.target.value)
-                            this.setState({
-                                max:Number(e.target.value),
-                            })
-                        }} controlId="max">
-                            <Form.Control defaultValue={this.state.max} type="number" placeholder="Max" min={0}/>
+                                this.setState({
+                                    b:Number(e.target.value),
+                                } )
+
+                        } }  controlId="min">
+                            <Form.Control defaultValue={this.state.min} type="number" placeholder="Min" min={0}/>
+                        </Form.Group>
+                        <Form.Group style={{maxWidth:100,margin:'5px'}} onChange={(e)=>{
+                            if(e.target.value)
+                                this.setState({
+                                    c:Number(e.target.value),
+                                } )
+
+                        } }  controlId="min">
+                            <Form.Control defaultValue={this.state.min} type="number" placeholder="Min" min={0}/>
+                        </Form.Group>
+                        <Form.Group style={{maxWidth:100,margin:'5px'}} onChange={(e)=>{
+                            if(e.target.value)
+                                this.setState({
+                                    d:Number(e.target.value),
+                                } )
+
+                        } }  controlId="min">
+                            <Form.Control defaultValue={this.state.min} type="number" placeholder="Min" min={0}/>
                         </Form.Group>
                         <Button  onClick={()=>{
-                            const {max,min}=this.state;
-                            if(max>(0-1) && min>(0-1) && max>min)
-                            this.setState({showDevices:true,error:undefined})
-                            else
-                            this.setState({error:"Both Max and Min should be > 0 and positive"})
-                            }} variant='warning' style={{fontSize:'20px',margin:'5px'}}>
-                            <GoRadioTower style={{marginRight:'10px'}}/>Scan
+                            const {a,b,c,d}=this.state;
+                            const min=a+"."+b+"."+c+"."+d;
+                            var adaNameRef = firebase.database().ref('deviceCheckResult');
+                            adaNameRef.on("value", function(snapshot) {
+                                const newvalue=snapshot.val().find( ({ ipv4 }) => ipv4 === min);
+                                console.log(newvalue);
+                                if(newvalue) {
+                                    var n='Name:'+newvalue.name.toString()+'\n'+
+                                        'IP Address:'+newvalue.ipv4+'\n'+
+                                        'MAC Address:'+newvalue.mac+'\n'+
+                                        'Status:'+newvalue.state;
+                                    Swal.fire({
+                                        html: '<pre>' + n + '</pre>',
+                                        customClass: {
+                                            popup: 'format-pre'
+                                        }
+                                    });
+                                }
+                                else
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'There is no device found matching the entered IP address',
+                                    })
+                            }, function (errorObject) {
+                                console.log("The read failed: " + errorObject.code);
+                            })
+
+                        }}> Scan
                         </Button>
                     </div>}<i style={{color:'red'}}>{this.state.error}</i>
                 </center>
